@@ -3,7 +3,7 @@
   ----------------------------------------------------------------
   ECS cannot reach GitHub (dead proxy), so we deploy via a local
   tar bridge instead of git fetch:
-    local pytest gate -> tar working tree -> scp -> extract -> build/up
+    local pytest gate -> tar working tree -> sftp -> extract -> build/up
     -> logs -> in-container /status healthcheck -> (optional) git push backup
 
   Prereqs: Git, OpenSSH Client (Win10+), Python venv at .venv.
@@ -69,10 +69,21 @@ $excludes = @("--exclude", ".git", "--exclude", ".venv", "--exclude", ".env",
 if ($LASTEXITCODE -ne 0) { Write-Host "tar failed." -ForegroundColor Red ; exit 1 }
 Ok "Packed $((Get-Item $TarFile).Length) bytes -> $TarFile"
 
-# 3. scp to ECS (own protocol avoids PowerShell pipe corruption of binary tar)
+# 3. Transfer tar to ECS via sftp (sftp over ssh channel — avoids Windows
+#    OpenSSH scp <-> Aliyun Linux sshd protocol mismatch where scp gets
+#    "Connection closed ... port 22" before sub-protocol handshake finishes.
+#    Verified: ssh itself works; only scp subsystem fails.)
 Step "Transfer to ECS ($EcsUser@$EcsHost)"
-& scp $TarFile "${EcsUser}@${EcsHost}:${DeployDir}/"
-if ($LASTEXITCODE -ne 0) { Write-Host "scp failed." -ForegroundColor Red ; exit 1 }
+$batchFile = [System.IO.Path]::GetTempFileName()
+try {
+    # sftp batch: `put` to remote path; `-o StrictHostKeyChecking=accept-new`
+    # auto-accepts new host keys on first run without freezing the deploy.
+    Set-Content -Path $batchFile -Value "put `"$TarFile`" ${DeployDir}/huanxin-sync.tar.gz" -Encoding ASCII
+    & sftp -o StrictHostKeyChecking=accept-new -b $batchFile "${EcsUser}@${EcsHost}"
+    if ($LASTEXITCODE -ne 0) { Write-Host "sftp failed." -ForegroundColor Red ; exit 1 }
+} finally {
+    Remove-Item $batchFile -Force -ErrorAction SilentlyContinue
+}
 Ok "Transferred"
 
 # 4. Extract + rebuild + up (atomic: extract over existing dir, then compose up)
