@@ -4,8 +4,9 @@
 
 验收点映射：
 - T-A02 / T-A04：强制会话鉴权收敛为 Bearer-only，移除 ``?token=`` 查询参数通道；
-                  公共白名单仅含 ``/health``、``/api/auth/login``、``/api/auth/register``、``/``。
-- T-A03：``/dashboard`` 不再公共（无 Bearer → 401）；``/`` 仍公共（200）。
+                  公共白名单含 ``/health``、``/api/auth/login``、``/api/auth/register``、``/``。
+- T-A03：``/dashboard`` 为公开 HTML 壳（59f5d4d 起）；数据端点（``/dashboard/status`` 等）
+          与 ``/status`` 仍需 Bearer；``/`` 仍公共（200）。
 - T-A06 / T-C01：新增 ``/status`` 与 ``/api/dashboard/self-evolve-status`` 可观测端点。
 - T-A07：开放注册默认关闭（配置 + 接口双层）。
 - T-B01：配置统一为单一 pydantic ``BaseSettings`` 真相源（``HuanxinConfig``），端口统一 8000。
@@ -83,12 +84,14 @@ class TestBearerOnlyAuth:
         assert r.status_code == 200
 
     def test_protected_route_requires_bearer(self, unauth_client):
-        # 受保护路由（/dashboard）不在 public_paths → 未带 Bearer 返回 401（T-A04 核心）
-        assert unauth_client.get("/dashboard").status_code == 401
+        # 受保护数据路由（/status）不在 public_paths → 未带 Bearer 返回 401（T-A04 核心）
+        # 注：/dashboard 与 /dashboard/legacy 自 59f5d4d 起为公开 HTML 壳（数据走 /api 与
+        # /dashboard/* 数据端点，仍需 Bearer），故此处改用 /status 作为受保护路由代表。
+        assert unauth_client.get("/status").status_code == 401
 
     def test_query_token_channel_removed(self, unauth_client):
         # ?token= 查询参数通道已移除：即使携带 query token，无 Bearer 仍 401（T-A04 核心）。
-        assert unauth_client.get("/dashboard?token=HACK").status_code == 401
+        assert unauth_client.get("/status?token=HACK").status_code == 401
 
     def test_login_get_not_blocked_by_auth_guard(self, unauth_client):
         # /api/auth/login 是公共路径（POST-only）。GET 到它不应被鉴权中间件拦截为 401
@@ -110,6 +113,8 @@ class TestBearerOnlyAuth:
 
 
 class TestDashboardNotPublic:
+    """59f5d4d 起：/dashboard 与 /dashboard/legacy 为公开 HTML 壳；数据端点仍受保护。"""
+
     def test_root_is_public(self, unauth_client):
         # / 在 public_paths → 200（T-A03：根路径仍公共）
         assert unauth_client.get("/").status_code == 200
@@ -126,9 +131,22 @@ class TestDashboardNotPublic:
         assert r.headers["content-type"].startswith("text/html")
         assert "emperor-court" in r.text
 
-    def test_dashboard_blocked_without_bearer(self, unauth_client):
-        # /dashboard 不在 public_paths → 401（T-A03 核心）
-        assert unauth_client.get("/dashboard").status_code == 401
+    def test_dashboard_shell_public_html_without_bearer(self, unauth_client):
+        # /dashboard 是公开 HTML 壳（59f5d4d）：未带 Bearer → 200 + text/html。
+        # 安全边界在数据层：/dashboard/status 等数据端点仍需 Bearer（见下个测试）。
+        r = unauth_client.get("/dashboard")
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/html")
+
+    def test_dashboard_data_endpoints_still_protected(self, unauth_client):
+        # /dashboard/status 数据端点不在 public_paths → 未带 Bearer 返回 401（安全核心）
+        assert unauth_client.get("/dashboard/status").status_code == 401
+
+    def test_login_page_public(self, unauth_client):
+        # /login 登录页（59f5d4d 新增）公开：未带 Bearer → 200 + text/html
+        r = unauth_client.get("/login")
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/html")
 
     def test_dashboard_reachable_with_valid_bearer(self, client):
         # 仅收敛鉴权，仪表盘本身仍可用（带 Bearer → 200）
