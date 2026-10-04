@@ -308,6 +308,26 @@ class SystemIntegration:
             "error": result.error,
         }
 
+    def analyze_github_repository(
+        self,
+        *,
+        owner: str,
+        repo: str,
+        ref: str = "",
+        output_dir: str = "docs/obsidian/github",
+    ) -> dict:
+        """Read a public repository and persist a first Obsidian snapshot."""
+        from huanxin.harness import register_default_harness_tools
+        from huanxin.skills import analyze_public_repository
+
+        register_default_harness_tools()
+        return analyze_public_repository(
+            owner=owner,
+            repo=repo,
+            ref=ref,
+            output_dir=output_dir,
+        )
+
     # ------------------------------------------------------------------
     # Status / Health Check
     # ------------------------------------------------------------------

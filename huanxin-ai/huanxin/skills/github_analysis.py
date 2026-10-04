@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from huanxin.tools.github_readonly import github_list_repository, github_read_file
+
 
 def render_github_analysis_note(
     *,
@@ -36,3 +38,54 @@ def render_github_analysis_note(
     )
     target.write_text(content, encoding="utf-8")
     return target
+
+
+def analyze_public_repository(
+    *,
+    owner: str,
+    repo: str,
+    ref: str = "",
+    output_dir: str | Path = "docs/obsidian/github",
+) -> dict[str, Any]:
+    """Collect a small, deterministic snapshot of a public GitHub repository.
+
+    This is deliberately a read-only ingestion skill.  GPT or another model
+    can consume the returned files later to produce a deeper analysis.
+    """
+    listing = github_list_repository(owner, repo, ref=ref)
+    if not listing.success:
+        return {"success": False, "error": listing.error, "owner": owner, "repo": repo}
+
+    entries = listing.data or []
+    names = [item.get("name", "") for item in entries if isinstance(item, dict)]
+    candidate_names = [
+        name
+        for name in ("README.md", "README中国.md", "pyproject.toml", "requirements.txt", "package.json")
+        if name in names
+    ]
+    files: dict[str, Any] = {}
+    for path in candidate_names:
+        result = github_read_file(owner, repo, path, ref=ref)
+        if result.success:
+            files[path] = result.data
+
+    summary = (
+        f"已读取公开仓库 `{owner}/{repo}` 的根目录。\n\n"
+        f"根目录条目数：{len(entries)}。\n"
+        f"已读取关键文件：{', '.join(candidate_names) if candidate_names else '无'}。"
+    )
+    note = render_github_analysis_note(
+        owner=owner,
+        repo=repo,
+        summary=summary,
+        files=[item.get("path", "") for item in entries if isinstance(item, dict)],
+        output_dir=output_dir,
+    )
+    return {
+        "success": True,
+        "owner": owner,
+        "repo": repo,
+        "entries": entries,
+        "files": files,
+        "note": str(note),
+    }
