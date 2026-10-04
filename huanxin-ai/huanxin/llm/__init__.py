@@ -11,6 +11,7 @@ Exports:
 """
 
 from huanxin.llm.config import LLMConfig, ModelProvider
+from huanxin.llm.minimind import MiniMindProvider
 from huanxin.llm.engine import LLMEngine
 from huanxin.llm.manager import LLMManager, build_manager_from_env
 
@@ -18,6 +19,7 @@ __all__ = [
     "LLMEngine",
     "LLMConfig",
     "ModelProvider",
+    "MiniMindProvider",
     "LLMManager",
     "build_manager_from_env",
 ]
