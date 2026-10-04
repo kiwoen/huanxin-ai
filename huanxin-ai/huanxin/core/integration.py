@@ -50,6 +50,7 @@ class SystemIntegration:
         self._orchestrator: Any = None
         self._knowledge_graph: Any = None
         self._imperial_court: Any = None
+        self._harness_loop: Any = None
         self._running = False
 
     # ------------------------------------------------------------------
@@ -266,6 +267,47 @@ class SystemIntegration:
             "error": result.error,
         }
 
+    async def execute_harness(
+        self,
+        *,
+        task_id: str,
+        task_type: str,
+        state: dict[str, Any] | None = None,
+        allowed_actions: list[str] | None = None,
+        max_steps: int = 8,
+    ) -> dict:
+        """Run the bounded local Harness path without changing legacy routing.
+
+        This opt-in path uses the existing tool registry and audit trail.  It
+        is intentionally separate from :meth:`execute` until the MiniMind
+        decision model has passed the integration evaluation set.
+        """
+        from huanxin.harness import HarnessLoop, register_default_harness_tools
+        from huanxin.tools.audit_trail import AuditTrail
+
+        registry = register_default_harness_tools()
+        if self._harness_loop is None or self._harness_loop.max_steps != max_steps:
+            audit_path = "huanxin_data/audit.db"
+            self._harness_loop = HarnessLoop(
+                registry=registry,
+                audit=AuditTrail(audit_path),
+                max_steps=max_steps,
+            )
+
+        result = await self._harness_loop.run(
+            task_id=task_id,
+            task_type=task_type,
+            state=state,
+            allowed_actions=allowed_actions,
+        )
+        return {
+            "success": result.success,
+            "status": result.status,
+            "state": result.state,
+            "steps": result.steps,
+            "error": result.error,
+        }
+
     # ------------------------------------------------------------------
     # Status / Health Check
     # ------------------------------------------------------------------
@@ -301,6 +343,10 @@ class SystemIntegration:
                 "recent_success_rate": court_metrics.get("recent_success_rate", 0),
             },
             "providers": self._get_provider_status(),
+            "harness": {
+                "loaded": self._harness_loop is not None,
+                "max_steps": self._harness_loop.max_steps if self._harness_loop else 0,
+            },
         }
 
     def topic_summary(self) -> dict:
