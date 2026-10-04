@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import base64
 import urllib.parse
 import urllib.request
 from typing import Any
@@ -35,6 +36,13 @@ def github_read_file(owner: str, repo: str, path: str, ref: str = "") -> ToolRes
     if not isinstance(payload, dict) or payload.get("type") != "file":
         return ToolResult(success=False, error="GitHub path is not a file")
 
+    content = payload.get("content", "")
+    if payload.get("encoding") == "base64" and isinstance(content, str):
+        try:
+            content = base64.b64decode(content).decode("utf-8")
+        except (ValueError, UnicodeDecodeError):
+            pass
+
     return ToolResult(
         success=True,
         data={
@@ -42,7 +50,7 @@ def github_read_file(owner: str, repo: str, path: str, ref: str = "") -> ToolRes
             "repo": repo,
             "path": path,
             "sha": payload.get("sha", ""),
-            "content": payload.get("content", ""),
+            "content": content,
             "encoding": payload.get("encoding", ""),
             "html_url": payload.get("html_url", ""),
         },
