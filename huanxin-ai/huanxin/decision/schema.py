@@ -30,7 +30,7 @@ class DecisionRequest(BaseModel):
     task_id: str = Field(min_length=1)
     task_type: str = Field(min_length=1)
     state: dict[str, Any] = Field(default_factory=dict)
-    allowed_actions: list[DecisionAction] = Field(min_items=1)
+    allowed_actions: list[DecisionAction] = Field(default_factory=list)
     step: int = Field(default=0, ge=0)
 
 
@@ -51,6 +51,9 @@ def parse_decision(raw: str | dict[str, Any], request: DecisionRequest) -> Decis
     The model may only select an action already present in ``request``.  This
     is a safety boundary, not a replacement for the project's policy engine.
     """
+
+    if not request.allowed_actions:
+        raise ValueError("decision request must provide at least one allowed action")
 
     payload: Any
     if isinstance(raw, str):
