@@ -18,6 +18,8 @@ def register_default_harness_tools(registry: ToolRegistry | None = None) -> Tool
         import huanxin.tools.builtin  # noqa: F401
 
     from huanxin.tools.github_readonly import register_github_tools
+    from huanxin.tools.file_readonly import register_file_tools
 
     register_github_tools(target)
+    register_file_tools(target)
     return target

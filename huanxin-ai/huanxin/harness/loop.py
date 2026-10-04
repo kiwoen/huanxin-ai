@@ -8,6 +8,7 @@ from typing import Any, Protocol
 from huanxin.decision import DecisionRequest
 from huanxin.llm.minimind import MiniMindProvider
 from huanxin.tools.registry import ToolRegistry, get_registry
+from huanxin.tools.audit_trail import AuditTrail
 
 
 class DecisionProvider(Protocol):
@@ -31,12 +32,14 @@ class HarnessLoop:
         *,
         decision_provider: DecisionProvider | None = None,
         registry: ToolRegistry | None = None,
+        audit: AuditTrail | None = None,
         max_steps: int = 8,
     ) -> None:
         if max_steps < 1:
             raise ValueError("max_steps must be positive")
         self.decision_provider = decision_provider or MiniMindProvider()
         self.registry = registry or get_registry()
+        self.audit = audit
         self.max_steps = max_steps
 
     async def run(
@@ -72,13 +75,24 @@ class HarnessLoop:
 
             tool_name = {
                 "read_github": "github_read_file",
-                "read_file": "file_info",
+                "read_file": "read_file",
             }.get(decision.action)
             if not tool_name:
                 return LoopResult(False, "unsupported_action", current_state, step + 1, decision.action)
 
             arguments = current_state.get("tool_arguments", {})
             result = self.registry.execute_tool(tool_name, arguments)
+            if self.audit is not None:
+                self.audit.record(
+                    tool_name=tool_name,
+                    params=arguments,
+                    result=result.to_dict(),
+                    error=result.error or None,
+                    latency_ms=result.duration_ms,
+                    validation_passed=result.success,
+                    agent_name="harness",
+                    task_id=task_id,
+                )
             current_state["last_tool"] = tool_name
             current_state["last_result"] = result.to_dict()
             if not result.success:
@@ -87,4 +101,3 @@ class HarnessLoop:
             current_state["tool_data"] = result.data
 
         return LoopResult(False, "max_steps", current_state, self.max_steps, "maximum steps reached")
-

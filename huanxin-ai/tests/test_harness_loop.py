@@ -9,6 +9,7 @@ from huanxin.harness import HarnessLoop
 from huanxin.tools.github_readonly import register_github_tools
 from huanxin.tools.base import ToolDef, ToolResult
 from huanxin.tools.registry import ToolRegistry
+from huanxin.tools.audit_trail import AuditTrail
 
 
 class _DecisionProvider:
@@ -73,6 +74,31 @@ async def test_harness_loop_has_a_hard_step_limit() -> None:
 
     assert result.success is False
     assert result.status == "max_steps"
+
+
+@pytest.mark.asyncio
+async def test_harness_loop_records_tool_audit(tmp_path) -> None:
+    registry = ToolRegistry()
+    registry.register_tool(
+        ToolDef(name="github_read_file", description="test", func=lambda **kwargs: {"ok": True})
+    )
+    audit = AuditTrail(str(tmp_path / "audit.db"), auto_archive=False)
+    loop = HarnessLoop(
+        decision_provider=_DecisionProvider(["read_github", "stop"]),
+        registry=registry,
+        audit=audit,
+    )
+
+    result = await loop.run(
+        task_id="audit-task",
+        task_type="github_analysis",
+        state={"tool_arguments": {}},
+        allowed_actions=["read_github", "stop"],
+    )
+
+    assert result.success is True
+    records = [record for record in audit.get_recent(20) if record.task_id == "audit-task"]
+    assert len(records) == 1
 
 
 def test_register_github_tools_is_idempotent() -> None:
