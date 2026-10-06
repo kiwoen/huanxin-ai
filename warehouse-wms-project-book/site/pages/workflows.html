@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="建档、收货、上架、拣货、移库与盘点">
+  <title>仓储业务流程 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item active" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>仓储业务流程</span></div>
+      <article class="article">
+        <h1 id="仓储业务流程">仓储业务流程</h1>
+<h2 id="0-首次初始化">0. 首次初始化</h2>
+<ol>
+<li>定义仓库、区域、货架、层、格的编码规则。</li>
+<li>导入商品表并清理重复 SKU、规格和单位。</li>
+<li>为商品和货位打印条码/二维码标签；供应商已有条码时先映射，不随意覆盖。</li>
+<li>盘点试点范围的期初库存，由负责人确认后建立期初记录。</li>
+</ol>
+<h2 id="1-收货入库">1. 收货入库</h2>
+<ol>
+<li>操作员选择或扫描收货单。</li>
+<li>扫描商品；系统展示名称、规格、预期数量和单位。</li>
+<li>输入实收数量；需要时录入批次、效期、序列号及质检状态。</li>
+<li>少收、超收、破损或待检商品按异常流程登记，不混入可用库存。</li>
+<li>扫描暂存/目标货位；系统展示商品、数量、货位和状态供核对。</li>
+<li>操作员确认；生成入库动作，库存才增加。</li>
+</ol>
+<p>未知条码进入“待识别商品”队列，不直接按 AI 猜测结果建档。部分收货、取消和重复扫描需明确状态与防重规则。</p>
+<h2 id="2-上架与移库">2. 上架与移库</h2>
+<ol>
+<li>系统可按类别、容量或固定货位规则推荐位置。</li>
+<li>操作员扫描商品或容器，再扫描目标货位标签。</li>
+<li>系统显示商品、数量、来源、目标位置和库存状态供核对。</li>
+<li>确认后生成移库动作并更新货位余额。</li>
+</ol>
+<p>首期建议使用“固定货位 + 人工确认”，有了周转和容量数据后再验证动态货位建议。</p>
+<h2 id="3-出库拣货">3. 出库拣货</h2>
+<ol>
+<li>根据订单/领料单生成待拣清单。</li>
+<li>按货位提示取货，扫描货位和商品条码。</li>
+<li>输入或扫描确认数量；批次商品按既定 FIFO/FEFO 规则提示。</li>
+<li>系统检查货位、商品、批次、库存状态和可用数量。</li>
+<li>操作员确认后生成出库动作；不足、错货、超拣或取消时按规则处理。</li>
+</ol>
+<p>首版是否接订单、支持部分拣货和库存预留要由朋友确认；如果只是内部领用，可先用简单出库单。</p>
+<h2 id="4-盘点与调整">4. 盘点与调整</h2>
+<ol>
+<li>按货位或商品生成盘点任务，并明确盘点期间是否暂停相关出入库。</li>
+<li>扫描货位、商品并记录实盘数。</li>
+<li>系统展示账面数与实盘差异，不覆盖原始记录。</li>
+<li>复盘或负责人审批后生成盘点调整动作，并记录调整原因。</li>
+</ol>
+<h2 id="5-退货与返库-是否纳入首期待确认">5. 退货与返库（是否纳入首期待确认）</h2>
+<ol>
+<li>关联原出库/销售/领料记录，记录退回商品和数量。</li>
+<li>扫描商品并录入批次或序列号；无法识别时先进入待确认队列。</li>
+<li>退回商品先进入待检/隔离状态，不默认计入可用库存。</li>
+<li>由有权限的人员决定重新上架、维修、报损或退回供应商。</li>
+<li>每次状态变化和货位移动都形成独立动作并关联原单。</li>
+</ol>
+<h2 id="每类写操作的共同校验">每类写操作的共同校验</h2>
+<ul>
+<li>必须确认操作者、业务类型、商品和数量。</li>
+<li>需要货位的操作必须核对货位标签。</li>
+<li>记录业务单号或来源，避免重复提交。</li>
+<li>操作成功后回显更新结果；失败不得显示为成功。</li>
+<li>需要撤销时创建反向动作或调整单，不删除历史记录。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

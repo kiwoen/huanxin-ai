@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="仓储半自动化系统项目书总览与子章节导航">
+  <title>项目总览 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item active" href="index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="pages/project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="pages/requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="pages/workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="pages/architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="pages/ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="pages/implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="pages/cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="pages/risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="pages/acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="pages/references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="index.html">项目书</a><span>/</span><span>项目总览</span></div>
+      <article class="article">
+        <h1 id="仓储半自动化系统">仓储半自动化系统</h1>
+<h2 id="项目摘要">项目摘要</h2>
+<p><strong>一句话定位：</strong> 面向小型仓库的轻量库存与货位管理工具，通过商品建档、扫码收发、货位确认和库存追溯降低人工录入与找货错误；AI 只负责信息提取、查询和建议，库存变化由可审计的业务操作确认。</p>
+<div class="table-wrap"><table><thead><tr>
+<th>项目信息</th>
+<th>当前草案</th>
+</tr></thead><tbody>
+<tr>
+<td>项目状态</td>
+<td>立项前需求验证，V0.1</td>
+</tr>
+<tr>
+<td>发起线索</td>
+<td>朋友提出仓储半自动化系统需求</td>
+</tr>
+<tr>
+<td>首批使用者</td>
+<td>仓库负责人、收货/拣货人员（待确认）</td>
+</tr>
+<tr>
+<td>首期范围</td>
+<td>单仓库、商品建档、收货、上架、出库、移库、盘点</td>
+</tr>
+<tr>
+<td>推荐形态</td>
+<td>手机/平板可用的网页应用或 PWA，加扫码设备与标签</td>
+</tr>
+<tr>
+<td>AI 定位</td>
+<td>可选辅助模块，不作为库存账本或自动扣库存引擎</td>
+</tr>
+<tr>
+<td>主要决策</td>
+<td>先验证现有开源底座，再决定配置、扩展或自研</td>
+</tr>
+</tbody></table></div>
+<blockquote><p><strong>重要假设：</strong> 目前尚未确认行业、商品数量、日常单量、条码情况、网络条件、预算及现有软件。本项目书以小型仓库试点为默认场景，所有目标和工期都是待验证方案。</p></blockquote>
+<h2 id="为什么先做窄场景">为什么先做窄场景</h2>
+<p>仓储系统最先要解决的是“库存账准不准、货在哪、谁做了什么操作”。机械臂、自动输送线、复杂预测和大模型训练都不是第一版的必要条件。先让一块区域的商品与货位扫码闭环，再用实测数据决定要不要扩展。</p>
+<h2 id="当前建议">当前建议</h2>
+<ol>
+<li>由朋友提供真实流程和一小批脱敏商品数据，作为试点需求来源。</li>
+<li>对照 InvenTree、ERPNext 或 Odoo 等现有系统演示收货、上架、移库、出库和盘点。</li>
+<li>如果现成能力覆盖主要流程，优先配置或扩展；只有确认存在关键缺口时才自研。</li>
+<li>AI 首期限定在商品资料草稿、自然语言只读查询和货位建议，写入动作必须经扫码/人工确认。</li>
+<li>试点先比较效率、差错和库存准确率，不以功能数量或模型参数作为成功标准。</li>
+</ol>
+<h2 id="项目书章节">项目书章节</h2>
+<p>下方卡片进入独立子网页；左侧导航可在各页面间切换。页面中的待确认项应由实际仓库负责人补充后，才作为需求和预算基线。</p><section class="chapter-section"><div class="section-kicker">PROJECT BOOK</div><h2>项目书导航</h2><p>点击章节进入对应子网页；也可用左侧导航在页面间切换。</p><div class="chapter-grid"><a class="chapter-card" href="pages/project-charter.html"><span class="card-number">01</span><span class="card-copy"><strong>项目章程</strong><small>目标、范围、干系人和待确认假设</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/requirements.html"><span class="card-number">02</span><span class="card-copy"><strong>需求清单</strong><small>角色、功能优先级、数据与质量要求</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/workflows.html"><span class="card-number">03</span><span class="card-copy"><strong>仓储业务流程</strong><small>建档、收货、上架、拣货、移库与盘点</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/architecture.html"><span class="card-number">04</span><span class="card-copy"><strong>系统架构与底座</strong><small>数据真值、扫码设备、开源方案与集成</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/ai-assistant.html"><span class="card-number">05</span><span class="card-copy"><strong>AI 助手边界</strong><small>适合交给 AI 的工作及人工确认规则</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/implementation.html"><span class="card-number">06</span><span class="card-copy"><strong>实施计划与任务表</strong><small>分阶段交付、责任人、产物和关口</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/cost-and-commercial.html"><span class="card-number">07</span><span class="card-copy"><strong>成本与商业化</strong><small>成本构成、路线对比与收费假设</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/risks-and-compliance.html"><span class="card-number">08</span><span class="card-copy"><strong>风险与合规</strong><small>库存准确性、数据安全、运行和授权风险</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/acceptance.html"><span class="card-number">09</span><span class="card-copy"><strong>试点验收指标</strong><small>先取基线，再按试点数据决定是否扩展</small></span><span class="card-arrow">↗</span></a>
+<a class="chapter-card" href="pages/references.html"><span class="card-number">10</span><span class="card-copy"><strong>网络资料与依据</strong><small>项目书结构、开源系统和条码标准来源</small></span><span class="card-arrow">↗</span></a></div></section>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

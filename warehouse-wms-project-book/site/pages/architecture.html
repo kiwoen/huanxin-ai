@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="数据真值、扫码设备、开源方案与集成">
+  <title>系统架构与底座 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item active" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>系统架构与底座</span></div>
+      <article class="article">
+        <h1 id="系统架构与底座评估">系统架构与底座评估</h1>
+<h2 id="推荐的逻辑边界">推荐的逻辑边界</h2>
+<p>手机/平板/扫码器负责现场交互；仓储网页负责扫码、显示和确认；库存业务 API 负责权限、校验、防重和审批；关系数据库保存商品、货位、库存动作和用户；AI 辅助服务通过受控接口提供资料提取、只读查询和位置建议。</p>
+<p><strong>库存 API 和数据库是库存事实来源。</strong> AI 只能通过受控接口读取或提交待确认草稿，不持有可任意写库的权限。</p>
+<h2 id="库存账设计要点">库存账设计要点</h2>
+<ul>
+<li>将每次收货、发货、移库、盘点调整记为独立业务动作。</li>
+<li>当前余额可以为查询性能做汇总，但需可由动作流水核对或重建。</li>
+<li>同一请求用唯一标识防止网络重试导致重复入账。</li>
+<li>库存写操作在事务中完成；动作与余额更新必须一起成功或一起回滚。</li>
+<li>已确认动作不可无痕删除；错误通过冲销/更正记录修复。</li>
+</ul>
+<h2 id="底座候选">底座候选</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>候选</th>
+<th>适配场景</th>
+<th>资料显示的能力</th>
+<th>评估时要确认</th>
+</tr></thead><tbody>
+<tr>
+<td>InvenTree</td>
+<td>零件、配件、电子元件和层级货位管理</td>
+<td>库存项关联数量、货位、批次/序列号；记录库存追踪；支持扫码移库、盘点和位置扫描</td>
+<td>是否覆盖订单履约、单位换算和行业流程；权限、导入、报表和许可证边界</td>
+</tr>
+<tr>
+<td>ERPNext</td>
+<td>仓储还需和采购、销售、库存估值或其他 ERP 流程衔接</td>
+<td>官方文档含收货、发料、仓间转移、Pick List 扫码等能力</td>
+<td>对简单仓储可能偏重；实施、学习、升级及许可证义务</td>
+</tr>
+<tr>
+<td>Odoo Inventory/Barcode</td>
+<td>需要较完整采购、销售、收货、发货业务流程</td>
+<td>官方文档介绍扫码器或手机收发货、商品与货位扫描</td>
+<td>按目标版本、部署方式核对功能范围、授权和维护成本</td>
+</tr>
+<tr>
+<td>自建轻量系统</td>
+<td>流程差异明确且现有系统无法合理配置</td>
+<td>可按现场流程定制</td>
+<td>需自行承担库存一致性、权限、备份、升级和长期维护</td>
+</tr>
+</tbody></table></div>
+<p>这不是最终选型结论。建议在同一份测试商品表上各走一次“收货—上架—移库—出库—盘点”，以操作时间和缺口清单作比较。官方能力链接见 <a href="references.html">网络资料与依据</a>。</p>
+<h2 id="设备与网络">设备与网络</h2>
+<ul>
+<li>先试用现有 Android 手机/平板摄像头扫码，或键盘模拟型蓝牙/USB 扫码器。</li>
+<li>少量货位标签可用普通标签打印方式验证；确定标签材质、尺寸和耐久度后再采购热敏打印机。</li>
+<li>若现场网络不稳，先记录断网频率和影响；离线队列需要冲突解决、重复操作保护和同步审计，不应被当成“加一个缓存”。</li>
+<li>先不采购 RFID、机械臂、输送线等高成本设备，除非吞吐量和测算已经证明其必要性。</li>
+</ul>
+<h2 id="与幻炘-ai-的适配">与幻炘 AI 的适配</h2>
+<ul>
+<li>通过明确的库存 API/工具接入幻炘 AI，优先做商品草稿提取、只读查询和位置推荐。</li>
+<li>写入操作调用受限命令，例如建立待审核收货草稿；正式入账由员工扫码和确认。</li>
+<li>每个 AI 动作携带用户、来源、输入摘要和结果审计；敏感单据按客户授权处理。</li>
+<li>如果仓储系统已有合适的库存模块，幻炘 AI 作为可插拔助手，不替代其库存账本。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="角色、功能优先级、数据与质量要求">
+  <title>需求清单 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item active" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>需求清单</span></div>
+      <article class="article">
+        <h1 id="需求清单">需求清单</h1>
+<h2 id="使用角色">使用角色</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>角色</th>
+<th>主要操作</th>
+<th>权限建议</th>
+</tr></thead><tbody>
+<tr>
+<td>管理员</td>
+<td>建用户、商品、货位、单位和基础设置</td>
+<td>配置权限；不得无痕删改历史动作</td>
+</tr>
+<tr>
+<td>仓库负责人</td>
+<td>审核盘点差异、调整、库存报表</td>
+<td>可审批高风险库存调整</td>
+</tr>
+<tr>
+<td>仓库操作员</td>
+<td>扫码收货、上架、拣货、移库和盘点</td>
+<td>只能执行被授权的业务动作</td>
+</tr>
+<tr>
+<td>只读查询者</td>
+<td>查询库存和货位</td>
+<td>不得写入库存</td>
+</tr>
+</tbody></table></div>
+<h2 id="功能需求优先级">功能需求优先级</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>ID</th>
+<th>优先级</th>
+<th>需求</th>
+<th>验收说明</th>
+</tr></thead><tbody>
+<tr>
+<td>FR-01</td>
+<td>P0</td>
+<td>商品和货位建档/导入</td>
+<td>必填字段校验；重复编码能提示</td>
+</tr>
+<tr>
+<td>FR-02</td>
+<td>P0</td>
+<td>记录库存收货、出库、移库</td>
+<td>每次变更形成带操作者、时间和数量的记录</td>
+</tr>
+<tr>
+<td>FR-03</td>
+<td>P0</td>
+<td>条码/二维码扫码识别商品和位置</td>
+<td>扫错、未登记或无权限时明确拦截</td>
+</tr>
+<tr>
+<td>FR-04</td>
+<td>P0</td>
+<td>查询商品总量和分货位数量</td>
+<td>页面显示统计时间和库存状态</td>
+</tr>
+<tr>
+<td>FR-05</td>
+<td>P0</td>
+<td>盘点与差异审批</td>
+<td>盘点值不直接覆盖历史；差异形成调整单</td>
+</tr>
+<tr>
+<td>FR-06</td>
+<td>P0</td>
+<td>用户角色、审计记录和数据备份</td>
+<td>能查谁在何时提交了什么操作</td>
+</tr>
+<tr>
+<td>FR-07</td>
+<td>P0</td>
+<td>商品单位与包装换算</td>
+<td>箱、包、件等换算明确且经负责人确认</td>
+</tr>
+<tr>
+<td>FR-08</td>
+<td>P1</td>
+<td>批次、效期、序列号和待检状态</td>
+<td>由商品类型和行业规则决定是否启用</td>
+</tr>
+<tr>
+<td>FR-09</td>
+<td>P1</td>
+<td>导出和低库存提醒</td>
+<td>提醒可配置，不自动下采购单</td>
+</tr>
+<tr>
+<td>FR-10</td>
+<td>P1</td>
+<td>AI 从表格/单据提取商品草稿</td>
+<td>导入前展示字段、来源和不确定项供人确认</td>
+</tr>
+<tr>
+<td>FR-11</td>
+<td>P2</td>
+<td>多仓、订单和第三方系统集成</td>
+<td>仅在单仓试点证实需求后规划</td>
+</tr>
+<tr>
+<td>FR-12</td>
+<td>P1</td>
+<td>退货/返库与库存预留</td>
+<td>先确认来源单据、质检状态和可用库存规则</td>
+</tr>
+</tbody></table></div>
+<h2 id="核心数据对象">核心数据对象</h2>
+<ul>
+<li><strong>商品：</strong> 内部 SKU、名称、规格、基本单位、包装单位及换算、分类、供应商编码、条码别名、是否按批次/序列号追踪、是否需效期管理、启用状态。</li>
+<li><strong>货位：</strong> 仓库/区域/货架/层/格的父子层级、货位码、货位类型、容量和状态。</li>
+<li><strong>库存维度：</strong> 至少区分商品、货位和库存状态；适用时还要区分批次、序列号、容器。</li>
+<li><strong>库存余额：</strong> 可用、已预留、待检/隔离、损坏等适用状态，不把“仓库里有”简单等同于“可以出库”。</li>
+<li><strong>库存动作：</strong> 单据号、类型、商品、数量和单位、来源/目标货位、批次/序列号、操作人、时间、关联单号、状态、调整原因和防重标识。</li>
+<li><strong>用户与角色：</strong> 账号、权限范围、所属仓库和操作状态。</li>
+</ul>
+<h2 id="非功能要求">非功能要求</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>类别</th>
+<th>初始要求</th>
+</tr></thead><tbody>
+<tr>
+<td>一致性</td>
+<td>同一业务操作不得重复扣减；并发更新需事务保护</td>
+</tr>
+<tr>
+<td>可追溯</td>
+<td>库存动作有审计记录；更正用反向/调整记录，不静默覆盖</td>
+</tr>
+<tr>
+<td>易用性</td>
+<td>手持设备可用，大按钮、少打字、扫码后明确显示结果</td>
+</tr>
+<tr>
+<td>安全</td>
+<td>最小权限、账号保护、传输加密、定期备份和恢复演练</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>现场网络条件待测；是否支持离线是立项决策项</td>
+</tr>
+<tr>
+<td>可维护性</td>
+<td>商品、位置和单位规则可配置；关键动作有测试</td>
+</tr>
+</tbody></table></div>
+<h2 id="数据迁移原则">数据迁移原则</h2>
+<p>先复制一份现有 Excel/ERP 数据做测试导入，生成异常清单：重复 SKU、空条码、单位不一致、无效货位和负库存。只有仓库负责人核对确认的数据才进入正式试点库；原始数据保留只读副本。</p>
+<h2 id="需要业务方拍板的规则">需要业务方拍板的规则</h2>
+<ul>
+<li>商品按件、箱、包等多单位收发时，换算关系由谁维护，能否出现小数数量。</li>
+<li>退货是直接回到可用库存，还是先进入待检/隔离区。</li>
+<li>已分配给订单但尚未出库的库存是否应标为预留，谁可以解除预留。</li>
+<li>是否允许负库存；若不允许，系统必须在过账前阻止。</li>
+<li>盘点期间若同时发生出入库，如何冻结、标记或复核盘点结果。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

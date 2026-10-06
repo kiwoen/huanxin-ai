@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="成本构成、路线对比与收费假设">
+  <title>成本与商业化 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item active" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>成本与商业化</span></div>
+      <article class="article">
+        <h1 id="成本与商业化">成本与商业化</h1>
+<h2 id="成本边界">成本边界</h2>
+<p>当前没有仓库规模、商品量、地点、设备和现有系统数据，因此本版不编造人民币报价。正式预算按现场调研后拆项。</p>
+<div class="table-wrap"><table><thead><tr>
+<th>成本项</th>
+<th>复用现有底座/低成本试点</th>
+<th>定制或自研时的成本来源</th>
+</tr></thead><tbody>
+<tr>
+<td>软件与部署</td>
+<td>现有电脑/手机、开源版本、自有局域网或低配服务器</td>
+<td>云服务器、域名、备份、监控、数据库维护</td>
+</tr>
+<tr>
+<td>扫码设备</td>
+<td>先用手机摄像头或已有扫码枪</td>
+<td>蓝牙/工业扫码器、耐用标签、热敏打印机</td>
+</tr>
+<tr>
+<td>数据整理</td>
+<td>导入少量样本，人工核对</td>
+<td>大量历史商品清洗、条码映射和期初盘点</td>
+</tr>
+<tr>
+<td>实施与培训</td>
+<td>由业务负责人带员工试点</td>
+<td>流程梳理、界面定制、现场培训和后续支持</td>
+</tr>
+<tr>
+<td>AI/API</td>
+<td>首期可不启用云模型</td>
+<td>API 调用量、图片识别、日志留存和模型评测</td>
+</tr>
+<tr>
+<td>运维</td>
+<td>小范围手动备份和恢复演练</td>
+<td>高可用、离线同步、权限审计、升级与客服</td>
+</tr>
+</tbody></table></div>
+<h2 id="方案路线">方案路线</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>路线</th>
+<th>初期投入</th>
+<th>长期维护</th>
+<th>适用判断</th>
+</tr></thead><tbody>
+<tr>
+<td>配置开源/现成系统</td>
+<td>最低，主要是部署、标签和数据整理</td>
+<td>较低到中等，取决于升级和现场支持</td>
+<td>朋友的流程基本标准，尽快验证</td>
+</tr>
+<tr>
+<td>现有系统 + 轻量扩展/AI 助手</td>
+<td>中等，开发缺少的交互或接口</td>
+<td>中等，需维护扩展兼容性</td>
+<td>基础收发货可复用，但录入/查询体验有明显缺口</td>
+</tr>
+<tr>
+<td>完全自研 WMS</td>
+<td>最高，需重建库存、权限、审计和测试</td>
+<td>最高，长期承担缺陷、升级和业务支持</td>
+<td>只有流程特殊、复用市场已验证且有持续团队时考虑</td>
+</tr>
+</tbody></table></div>
+<h2 id="预算测算表">预算测算表</h2>
+<p>现场确认后按如下公式估算，设备部分优先询价复用设备；人员投入按实际人日和服务范围报价。</p>
+<p><strong>首期总成本 = 需求与数据整理 + 软件配置/开发 + 设备与标签 + 部署备份 + 培训试点 + 预留维护</strong></p>
+<p>至少给出三档：只跑通试点、可稳定单仓使用、面向多个仓库/客户产品化。云模型费用独立列项并设置额度上限，不将“免费额度”作为稳定成本基础。</p>
+<h2 id="可能的商业化方式">可能的商业化方式</h2>
+<ul>
+<li>单仓部署与初始化服务：商品/货位导入、条码规则、培训。</li>
+<li>按仓库/账号/功能订阅：库存基础版与 AI 辅助版分层。</li>
+<li>自托管/私有部署与运维支持：面向有数据控制要求的客户。</li>
+<li>设备与耗材由客户自购或透明代采，不隐藏硬件成本。</li>
+</ul>
+<p>以上只是收费路径假设。要产品化，必须验证相邻仓库是否有相同痛点、是否愿意付费、部署维护是否可复制。朋友的单个需求只能证明一个试点机会，不能单独证明市场规模。</p>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

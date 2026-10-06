@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="适合交给 AI 的工作及人工确认规则">
+  <title>AI 助手边界 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item active" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>AI 助手边界</span></div>
+      <article class="article">
+        <h1 id="ai-助手边界">AI 助手边界</h1>
+<h2 id="适合首期验证">适合首期验证</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>能力</th>
+<th>输入</th>
+<th>输出</th>
+<th>上线控制</th>
+</tr></thead><tbody>
+<tr>
+<td>商品资料草稿</td>
+<td>供应商表格、发票/装箱单图片、商品标签</td>
+<td>SKU、名称、规格、单位、条码字段及不确定项</td>
+<td>字段来源可查看；员工确认后保存</td>
+</tr>
+<tr>
+<td>自然语言库存查询</td>
+<td>用户问题</td>
+<td>基于库存 API 的数量、位置和更新时间</td>
+<td>缺数据时说明缺失，不编造库存</td>
+</tr>
+<tr>
+<td>上架建议</td>
+<td>商品类别、货位容量、固定货位规则</td>
+<td>候选货位及理由</td>
+<td>扫描实际货位并确认</td>
+</tr>
+<tr>
+<td>操作指导</td>
+<td>角色、当前流程和错误提示</td>
+<td>下一步指引、错误解释</td>
+<td>不绕过权限和流程校验</td>
+</tr>
+<tr>
+<td>数据质量提示</td>
+<td>商品/货位/动作记录</td>
+<td>重复 SKU、缺字段、异常差异提示</td>
+<td>只提示，不自动合并或删除</td>
+</tr>
+</tbody></table></div>
+<h2 id="不允许模型直接决定">不允许模型直接决定</h2>
+<ul>
+<li>不允许仅凭图片推断商品身份后自动增加库存。</li>
+<li>不允许自然语言对话直接扣减、转移或调整正式库存。</li>
+<li>不允许模型绕过登录、审批、库存不足或批次规则。</li>
+<li>不允许将客户原始数据默认用于微调 MiniMind 或训练其他模型。</li>
+<li>不允许将“模型说成功”作为业务成功；以库存 API 返回和审计记录为准。</li>
+</ul>
+<h2 id="建议的操作模式">建议的操作模式</h2>
+<ol>
+<li>AI 解析请求并生成结构化草稿。</li>
+<li>业务 API 校验 SKU、单位、数量、权限、货位和可用库存。</li>
+<li>界面清楚展示将发生的变化。</li>
+<li>员工扫码复核并确认；高风险调整由负责人二次审批。</li>
+<li>成功后显示交易编号并写入审计流水。</li>
+</ol>
+<h2 id="数据保护">数据保护</h2>
+<ul>
+<li>尽量只向模型发送完成任务所需字段，避免整库或整批采购文件外传。</li>
+<li>为云模型配置供应商、用途、保留策略和用户授权说明。</li>
+<li>允许仓库关闭 AI 功能后继续完成核心扫码流程。</li>
+<li>模型失败或超时必须回退到人工表单，不能阻塞入库、出库和盘点。</li>
+<li>先用规则和评测集验证效果，再讨论训练；初期通常无需训练自己的基础模型。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

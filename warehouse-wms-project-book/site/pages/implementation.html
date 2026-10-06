@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="分阶段交付、责任人、产物和关口">
+  <title>实施计划与任务表 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item active" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>实施计划与任务表</span></div>
+      <article class="article">
+        <h1 id="实施计划与任务表">实施计划与任务表</h1>
+<h2 id="分阶段计划">分阶段计划</h2>
+<p>以下是规划假设：一名技术负责人可投入开发，朋友能安排仓库负责人参与；若需多仓、离线、特殊批次管理或 ERP 深度集成，工期与预算需要重新评估。</p>
+<div class="table-wrap"><table><thead><tr>
+<th>阶段</th>
+<th>主要工作</th>
+<th>交付物</th>
+<th>进入下一阶段的条件</th>
+</tr></thead><tbody>
+<tr>
+<td>0. 需求发现</td>
+<td>观察收货、上架、出库、移库、盘点；盘点现有表格和设备</td>
+<td>已确认流程图、数据样本、范围和问题清单</td>
+<td>仓库负责人确认首期范围</td>
+</tr>
+<tr>
+<td>1. 底座验证</td>
+<td>用 InvenTree、ERPNext、Odoo 或简易原型走通测试流程</td>
+<td>选型记录、功能差距表、费用与维护评估</td>
+<td>确定配置、扩展或自建路线</td>
+</tr>
+<tr>
+<td>2. MVP 准备</td>
+<td>整理商品与货位编码、导入样本、打印测试标签</td>
+<td>可重复测试的数据集和现场操作说明</td>
+<td>试点商品和货位完成核对</td>
+</tr>
+<tr>
+<td>3. 小范围试点</td>
+<td>选择一个区域/一组商品，真实扫码收发和盘点</td>
+<td>使用日志、异常清单、基线对比</td>
+<td>无未解决的库存错账类阻断问题</td>
+</tr>
+<tr>
+<td>4. 复盘与决策</td>
+<td>访谈操作员，复测效率、准确率和成本</td>
+<td>试点报告及扩展/整改/停止建议</td>
+<td>由业务发起人决定是否扩围</td>
+</tr>
+</tbody></table></div>
+<p>可将阶段 0–3 按每周节奏排程，但具体日历日期须等到参与者、仓库规模、设备和底座确定后填写；这里不把未经评估的工期当作承诺。</p>
+<h2 id="任务项目表">任务项目表</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>ID</th>
+<th>任务</th>
+<th>负责人</th>
+<th>产物/验收</th>
+<th>状态</th>
+</tr></thead><tbody>
+<tr>
+<td>T-01</td>
+<td>确认朋友是实际仓库用户还是软件创业者</td>
+<td>发起人/朋友</td>
+<td>明确单仓交付还是多客户产品</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-02</td>
+<td>访谈仓库负责人并走查五类流程</td>
+<td>产品/开发 + 仓库负责人</td>
+<td>每类流程有现状、异常和责任人</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-03</td>
+<td>收集脱敏商品表和货位样本</td>
+<td>仓库负责人</td>
+<td>字段字典、重复/缺失数据清单</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-04</td>
+<td>确认 SKU、单量、批次/效期/序列号和离线要求</td>
+<td>业务发起人</td>
+<td>需求确认表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-05</td>
+<td>对比开源底座并做端到端演示</td>
+<td>技术负责人</td>
+<td>选型矩阵和缺口列表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-06</td>
+<td>约定基线和试点验收阈值</td>
+<td>业务发起人 + 仓库负责人</td>
+<td>确认的指标表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-07</td>
+<td>小范围导入、扫码、培训和试运行</td>
+<td>技术负责人 + 操作员</td>
+<td>试点记录与问题单</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>T-08</td>
+<td>复盘投入产出，决定扩展或停止</td>
+<td>项目发起人</td>
+<td>试点复盘和下一阶段决策</td>
+<td>待开始</td>
+</tr>
+</tbody></table></div>
+<h2 id="阶段决策门">阶段决策门</h2>
+<ul>
+<li><strong>Gate 0：</strong> 未获得真实流程和数据样本前，不开始大规模自研。</li>
+<li><strong>Gate 1：</strong> 已有底座若覆盖大部分核心流程，优先配置/扩展，不重写库存基础。</li>
+<li><strong>Gate 2：</strong> 未通过试点库存核对和操作日志验收前，不接自动化写入或扩大范围。</li>
+<li><strong>Gate 3：</strong> 只有有稳定复用需求、明确付费方和维护责任后，才投入产品化和多租户能力。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

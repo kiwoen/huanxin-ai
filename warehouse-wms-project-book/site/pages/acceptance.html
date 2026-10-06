@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="先取基线，再按试点数据决定是否扩展">
+  <title>试点验收指标 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item active" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>试点验收指标</span></div>
+      <article class="article">
+        <h1 id="试点验收指标">试点验收指标</h1>
+<h2 id="先测基线-再定目标">先测基线，再定目标</h2>
+<p>正式试点前，在同一试点区域记录现有做法的耗时与差错。指标目标由仓库负责人确认；没有基线前，不把百分比改善写成项目承诺。</p>
+<div class="table-wrap"><table><thead><tr>
+<th>指标</th>
+<th>测量方法</th>
+<th>基线</th>
+<th>目标</th>
+</tr></thead><tbody>
+<tr>
+<td>收货处理时间</td>
+<td>同类收货任务从开始到完成的用时</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>拣货处理时间</td>
+<td>每单/每行商品的平均用时</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>货位准确率</td>
+<td>抽查货位与系统记录一致的商品占比</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>库存账实准确率</td>
+<td>抽盘中数量与系统记录一致的项目占比</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>错扫/漏扫率</td>
+<td>记录被系统拦截或事后发现的操作差错</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>任务留痕率</td>
+<td>应形成库存动作且有完整记录的操作占比</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>员工使用率</td>
+<td>试点任务中通过系统完成的任务占比</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>运行稳定性</td>
+<td>失败请求、重复动作和恢复演练结果</td>
+<td>待测</td>
+<td>待确认</td>
+</tr>
+</tbody></table></div>
+<h2 id="建议验收方式">建议验收方式</h2>
+<ol>
+<li>选定固定试点区域、商品集合和参与人员，避免前后数据不可比。</li>
+<li>试点前后使用相同任务类型和相近商品数量，记录耗时、差错和系统日志。</li>
+<li>由操作员反馈流程是否增加额外步骤；由负责人核对系统流水与实物。</li>
+<li>发现账实差异时先暂停扩大范围，找到根因并记录整改。</li>
+<li>复盘结论分为：继续扩展、先整改再测、退回现成系统配置、停止项目。</li>
+</ol>
+<h2 id="试点退出条件">试点退出条件</h2>
+<ul>
+<li>无法证明账面数量能追溯到业务操作。</li>
+<li>网络重试可能造成无法察觉的重复库存变化。</li>
+<li>操作员无法在实际现场稳定完成关键扫码流程。</li>
+<li>数据导入错误尚未清理，或没有可验证的备份恢复方案。</li>
+<li>业务负责人没有明确维护责任和继续投入意愿。</li>
+</ul>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="库存准确性、数据安全、运行和授权风险">
+  <title>风险与合规 · 仓储半自动化系统项目书</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">仓</span>
+      <span><strong>仓储半自动化系统</strong><small>项目书 · 可行性与试点方案</small></span>
+    </a>
+    <div class="topbar-meta"><span class="status-dot"></span>草案 V0.1</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="项目书章节">
+      <div class="sidebar-caption">项目导航</div>
+      <a class="nav-item" href="../index.html"><span class="nav-number">00</span><span>总览首页</span></a>
+<a class="nav-item" href="project-charter.html"><span class="nav-number">01</span><span>项目章程</span></a>
+<a class="nav-item" href="requirements.html"><span class="nav-number">02</span><span>需求清单</span></a>
+<a class="nav-item" href="workflows.html"><span class="nav-number">03</span><span>仓储业务流程</span></a>
+<a class="nav-item" href="architecture.html"><span class="nav-number">04</span><span>系统架构与底座</span></a>
+<a class="nav-item" href="ai-assistant.html"><span class="nav-number">05</span><span>AI 助手边界</span></a>
+<a class="nav-item" href="implementation.html"><span class="nav-number">06</span><span>实施计划与任务表</span></a>
+<a class="nav-item" href="cost-and-commercial.html"><span class="nav-number">07</span><span>成本与商业化</span></a>
+<a class="nav-item active" href="risks-and-compliance.html"><span class="nav-number">08</span><span>风险与合规</span></a>
+<a class="nav-item" href="acceptance.html"><span class="nav-number">09</span><span>试点验收指标</span></a>
+<a class="nav-item" href="references.html"><span class="nav-number">10</span><span>网络资料与依据</span></a>
+      <div class="sidebar-note">
+        <strong>文档状态</strong>
+        <span>需求待实地确认</span>
+        <small>更新于 2026-10-06</small>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="breadcrumb"><a href="../index.html">项目书</a><span>/</span><span>风险与合规</span></div>
+      <article class="article">
+        <h1 id="风险与合规">风险与合规</h1>
+<div class="table-wrap"><table><thead><tr>
+<th>风险</th>
+<th>影响</th>
+<th>预防与应对</th>
+<th>状态</th>
+</tr></thead><tbody>
+<tr>
+<td>商品/货位数据不干净</td>
+<td>扫码无法匹配、库存错位</td>
+<td>先清洗脱敏样本；设置唯一编码；期初盘点双人核对</td>
+<td>待调研</td>
+</tr>
+<tr>
+<td>员工漏扫或错扫</td>
+<td>系统账与实物分离</td>
+<td>商品与货位双扫描、回显确认、异常拦截和抽盘</td>
+<td>高优先级</td>
+</tr>
+<tr>
+<td>网络不稳定</td>
+<td>操作延迟或重复提交</td>
+<td>先测试覆盖；请求防重；离线能力单独评估</td>
+<td>待确认</td>
+</tr>
+<tr>
+<td>多人并发改同一库存</td>
+<td>负库存或重复出库</td>
+<td>数据库事务、锁定/预留和防重标识</td>
+<td>设计要求</td>
+</tr>
+<tr>
+<td>AI 识别错误</td>
+<td>错建商品或误导查询</td>
+<td>草稿与来源提示；人工确认；库存变化只走业务 API</td>
+<td>设计要求</td>
+</tr>
+<tr>
+<td>账号权限过宽</td>
+<td>未授权调账或数据泄露</td>
+<td>最小权限、负责人审批、定期审查、审计日志</td>
+<td>设计要求</td>
+</tr>
+<tr>
+<td>数据丢失</td>
+<td>无法恢复真实库存和操作历史</td>
+<td>自动备份、异地副本和定期恢复演练</td>
+<td>设计要求</td>
+</tr>
+<tr>
+<td>开源许可/插件边界不清</td>
+<td>不能按预期分发或商用</td>
+<td>选型前核对仓库、依赖和插件许可，必要时请专业人士审阅</td>
+<td>待选型</td>
+</tr>
+<tr>
+<td>需求不断扩张</td>
+<td>工期、成本和质量失控</td>
+<td>MVP 范围冻结；新需求进入下一阶段评估</td>
+<td>项目控制</td>
+</tr>
+</tbody></table></div>
+<h2 id="运营与数据保护">运营与数据保护</h2>
+<ul>
+<li>仓储记录可能包含供应商、客户、员工账号、订单和商业敏感信息；只采集必要信息并设定访问权限。</li>
+<li>先明确部署位置、日志保留、备份责任、账号注销和数据导出/删除流程。</li>
+<li>如调用第三方模型或识别服务，应告知客户数据可能发送至何处、用途为何，并提供不用 AI 的核心操作路径。</li>
+<li>不把客户库存数据或真实操作日志默认写入公开训练集或模型微调集。</li>
+<li>使用开源软件时应核对当前版本、依赖与商用分发条件；本项目书不替代法律审查。</li>
+</ul>
+<h2 id="条码与可追溯">条码与可追溯</h2>
+<p>优先识别商品现有条码并建立映射，内部货位可使用企业自定义标签。若业务涉及多组织供应链、批次/效期或托盘级追溯，再评估 GS1 标识规则和行业要求，避免随意把自定义码当成全球标准码。</p>
+      </article>
+      <footer class="footer">
+        <span>仓储半自动化系统 · 立项与试点方案</span>
+        <span>Markdown 源文件位于 content/，可在 Obsidian 中编辑</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
