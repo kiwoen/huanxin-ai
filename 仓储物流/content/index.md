@@ -4,7 +4,7 @@ created: 2026-10-06
 tags: [warehouse, project-book, overview]
 ---
 
-# 仓储半自动化系统
+# 仓储物流｜半自动化仓储系统
 
 ## 项目摘要
 
